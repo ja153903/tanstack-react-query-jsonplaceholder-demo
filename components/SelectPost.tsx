@@ -6,7 +6,7 @@ type SelectPostProps = {
 };
 
 function SelectPost({ uid }: SelectPostProps) {
-  const { getValue, setValue } = useFormContext();
+  const { getValue, setValue, handleChange } = useFormContext();
   const {
     data: posts,
     isLoading,
@@ -27,7 +27,7 @@ function SelectPost({ uid }: SelectPostProps) {
   }
 
   return (
-    <select value={pid} onChange={(e) => setValue("pid", e.target.value)}>
+    <select value={pid} onChange={handleChange("pid")}>
       {posts.map((post) => (
         <option key={post.id} value={post.id}>
           {post.title}

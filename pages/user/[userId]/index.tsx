@@ -8,7 +8,17 @@ function UserPage() {
   const router = useRouter();
   const { userId } = router.query;
 
-  return <UserProfileScreen userId={userId as string} />;
+  const handleBackToUsersClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    router.push("/");
+  };
+
+  return (
+    <UserProfileScreen
+      userId={userId as string}
+      onBackToUsersClick={handleBackToUsersClick}
+    />
+  );
 }
 
 export default UserPage;

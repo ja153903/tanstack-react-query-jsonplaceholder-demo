@@ -1,16 +1,16 @@
 import { useState } from "react";
 
-type Schema = Record<string, { type: string; value?: any }>;
+export type Schema = Record<string, { type: string; value?: any }>;
 
-type FormError = { type: string; message: string };
+export type FormError = { type: string; message: string };
 
-interface FormState {
+export interface FormState {
   values: Record<string, any>;
   errors: Record<string, FormError>;
   touched: Record<string, boolean>;
 }
 
-const INITIAL_FORM_STATE: FormState = {
+export const INITIAL_FORM_STATE: FormState = {
   values: {},
   errors: {},
   // we need to implement a handleBlur function for this
@@ -30,7 +30,7 @@ function _schemaToFormState(schema: Schema): FormState {
             [key]: value ?? "",
           },
         };
-      case "boolean":
+      case "select":
         return {
           ...acc,
           values: {
@@ -44,6 +44,27 @@ function _schemaToFormState(schema: Schema): FormState {
           values: {
             ...acc.values,
             [key]: value ?? 0,
+          },
+        };
+      case "multiselect":
+        // NOTE: this might be over-engineering for now
+        // We currently don't have a use-case for multi-select
+        // This could be something we might consider using in the future
+        const { options } = value;
+
+        const optionsAsRecord = options.reduce(
+          (acc: Record<string, boolean>, optionKey: string) => ({
+            ...acc,
+            [optionKey]: false,
+          }),
+          {}
+        );
+
+        return {
+          ...acc,
+          values: {
+            ...acc.values,
+            [key]: optionsAsRecord ?? {},
           },
         };
       default:
@@ -83,7 +104,25 @@ export function useForm(schema: Schema) {
     }));
   };
 
-  // need to implement handleBlur, handleChange, handleSubmit
+  const handleChange = (key: string) => {
+    return (
+      event: React.ChangeEvent<
+        HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
+      >
+    ) => {
+      setFormState((previousFormState) => ({
+        ...previousFormState,
+        values: {
+          ...previousFormState.values,
+          [key]: event.target.value,
+        },
+      }));
+    };
+  };
+
+  // TODO: Implement handleBlur
+  // TODO: Implement handleSubmit
+  // TODO: Implement reset
 
   return {
     formState,
@@ -92,6 +131,7 @@ export function useForm(schema: Schema) {
     setValue,
     getError,
     setError,
+    handleChange,
   };
 }
 
