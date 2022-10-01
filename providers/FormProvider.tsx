@@ -1,11 +1,8 @@
-import { createContext, Dispatch, SetStateAction, useContext } from "react";
+import { createContext, useContext } from "react";
 
-interface FormType {
-  pid: string;
-  setPid: Dispatch<SetStateAction<string>>;
-}
+import type { FormType } from "../hooks/useForm";
 
-const FormContext = createContext<FormType | null>(null);
+const FormContext = createContext<FormType>({} as FormType);
 
 const useFormContext = () => useContext(FormContext);
 

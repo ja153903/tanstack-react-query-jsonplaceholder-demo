@@ -19,5 +19,7 @@ export interface Post {
 }
 
 export function usePostByIdQuery(pid: string) {
-  return useQuery<Post>(["posts", pid], () => fetchPostByUserId(pid));
+  return useQuery<Post>(["posts", pid], () => fetchPostByUserId(pid), {
+    enabled: pid != null && pid !== "",
+  });
 }

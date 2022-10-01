@@ -2,8 +2,12 @@ import { usePostByIdQuery } from "../hooks/usePostByIdQuery";
 import { useFormContext } from "../providers/FormProvider";
 
 function Post() {
-  const { pid } = useFormContext()!;
-  const { data: currentPost, isLoading, isError } = usePostByIdQuery(pid);
+  const { getValue } = useFormContext();
+  const {
+    data: currentPost,
+    isLoading,
+    isError,
+  } = usePostByIdQuery(getValue("pid"));
 
   if (isLoading) {
     return <div>Loading post..</div>;

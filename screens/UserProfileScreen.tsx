@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { useUserByIdQuery } from "../hooks/useUserByIdQuery";
 import SelectPost from "../components/SelectPost";
 import Post from "../components/Post";
 import { FormContext } from "../providers/FormProvider";
+import { useForm } from "../hooks/useForm";
 
 type UserProfileScreenProps = {
   userId: string;
@@ -10,7 +10,9 @@ type UserProfileScreenProps = {
 
 function UserProfileScreen({ userId }: UserProfileScreenProps) {
   const { data: user, isLoading, isError } = useUserByIdQuery(userId);
-  const [pid, setPid] = useState<string>("");
+  const formMethods = useForm({
+    pid: { type: "string" },
+  });
 
   if (isLoading) {
     return <div>We are fetching the current user</div>;
@@ -21,7 +23,7 @@ function UserProfileScreen({ userId }: UserProfileScreenProps) {
   }
 
   return (
-    <FormContext.Provider value={{ pid, setPid }}>
+    <FormContext.Provider value={formMethods}>
       <div>
         <p>Hi, this is the profile of {user.name}</p>
         <SelectPost uid={userId} />

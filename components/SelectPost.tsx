@@ -6,16 +6,17 @@ type SelectPostProps = {
 };
 
 function SelectPost({ uid }: SelectPostProps) {
-  const { pid, setPid } = useFormContext()!;
+  const { getValue, setValue } = useFormContext();
   const {
     data: posts,
     isLoading,
     isError,
   } = usePostsByUserIdQuery(uid, {
     onSuccess: (posts) => {
-      setPid(posts[0].id.toString());
+      setValue("pid", posts[0].id.toString());
     },
   });
+  const pid = getValue("pid");
 
   if (isLoading) {
     return <div>Loading results</div>;
@@ -26,7 +27,7 @@ function SelectPost({ uid }: SelectPostProps) {
   }
 
   return (
-    <select value={pid} onChange={(e) => setPid(e.target.value)}>
+    <select value={pid} onChange={(e) => setValue("pid", e.target.value)}>
       {posts.map((post) => (
         <option key={post.id} value={post.id}>
           {post.title}
