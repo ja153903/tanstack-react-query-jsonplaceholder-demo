@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import UserProfileScreen from "../../../screens/UserProfileScreen";
+// import UserProfileScreen from "../../../screens/UserProfileScreen";
+import UserProfileScreenWithReactHookForm from "../../../screens/UserProfileScreenWithReactHookForm";
 
 function UserPage() {
   // the router here is working as the context, but is this appropriate?
@@ -14,7 +15,7 @@ function UserPage() {
   };
 
   return (
-    <UserProfileScreen
+    <UserProfileScreenWithReactHookForm
       userId={userId as string}
       onBackToUsersClick={handleBackToUsersClick}
     />
