@@ -16,7 +16,7 @@ function UserPage() {
 
   return (
     <UserProfileScreenWithReactHookForm
-      userId={userId as string}
+      userId={userId}
       onBackToUsersClick={handleBackToUsersClick}
     />
   );
