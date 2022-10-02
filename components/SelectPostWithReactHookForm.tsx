@@ -25,6 +25,8 @@ function SelectPost({ uid }: SelectPostProps) {
     return <div>No results to load</div>;
   }
 
+  // Note that if we're going to end up using MUI components
+  // we're going to need to use useController
   return (
     <select {...register("pid")}>
       {posts.map((post) => (
