@@ -29,6 +29,7 @@ export function usePostsByUserIdQuery(
     () => fetchPostsByUserId(uid),
     {
       select: (posts) => posts.map(({ id, title }) => ({ id, title })),
+      enabled: !!uid,
       onSuccess,
     }
   );

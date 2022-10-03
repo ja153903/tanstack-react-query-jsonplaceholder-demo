@@ -15,6 +15,6 @@ async function fetchUserById(uid: string) {
 
 export function useUserByIdQuery(uid: string) {
   return useQuery<User>(["users", uid], () => fetchUserById(uid), {
-    enabled: uid !== undefined,
+    enabled: !!uid,
   });
 }
